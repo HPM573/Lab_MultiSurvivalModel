@@ -5,7 +5,7 @@ import SimPy.SamplePathClasses as Path
 MORTALITY_PROB = 0.1    # annual probability of death
 TIME_STEPS = 100        # years
 N_COHORTS = 500         # number of cohorts
-COHORT_POP_SIZE = 100   # size of each cohort
+COHORT_POP_SIZE = 1000   # size of each cohort
 
 # create multiple cohorts
 multiCohort = Cls.MultiCohort(

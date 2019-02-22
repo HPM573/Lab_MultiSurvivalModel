@@ -12,30 +12,26 @@ class MultiCohort:
         :param mortality_probs: (list) of the mortality probabilities
         """
         self.ids = ids
-        self.cohorts = []   # list of cohorts
+        self.popSizes = pop_sizes
+        self.mortalityProbs = mortality_probs
         self.multiCohortOutcomes = MultiCohortOutcomes()
-
-        # create cohorts
-        for i in range(len(self.ids)):
-            # create a cohort
-            self.cohorts.append(
-                Cohort(
-                    id=self.ids[i],
-                    pop_size=pop_sizes[i],
-                    mortality_prob=mortality_probs[i]
-                )
-            )
 
     def simulate(self, n_time_steps):
         """ simulates all cohorts """
 
-        # simulate all cohorts
-        for cohort in self.cohorts:
+        for i in range(len(self.ids)):
+
+            # create a cohort
+            cohort = Cohort(id=self.ids[i], pop_size=self.popSizes[i], mortality_prob= self.mortalityProbs[i])
+
             # simulate the cohort
             cohort.simulate(n_time_steps)
 
-        # outcomes from simulating all cohorts
-        self.multiCohortOutcomes.extract_outcomes(self.cohorts)
+            # outcomes from simulating all cohorts
+            self.multiCohortOutcomes.extract_outcomes(simulated_cohort=cohort)
+
+        # calculate the summary statistics of from all cohorts
+        self.multiCohortOutcomes.calculate_summary_stats()
 
 
 class MultiCohortOutcomes:
@@ -46,18 +42,20 @@ class MultiCohortOutcomes:
         self.survivalCurves = []  # list of survival curves from all simulated cohorts
         self.sumStat_meanSurvivalTime = None  # summary statistics of mean survival time
 
-    def extract_outcomes(self, simulated_cohorts):
-        """ extracts outcomes of multiple simulated cohorts
-        :param simulated_cohorts: multiple cohorts after being simulated"""
+    def extract_outcomes(self, simulated_cohort):
+        """ extracts outcomes of a simulated cohort
+        :param simulated_cohort: a cohort after being simulated"""
 
-        # go over all simulation cohorts
-        for cohort in simulated_cohorts:
+        # store all patient survival times from this cohort
+        self.survivalTimes.append(simulated_cohort.cohortOutcomes.survivalTimes)
 
-            # store all patient survival times from this cohort
-            self.survivalTimes.append(cohort.cohortOutcomes.survivalTimes)
+        # append the survival curve of this cohort
+        self.survivalCurves.append(simulated_cohort.cohortOutcomes.nLivingPatients)
 
-            # append the survival curve of this cohort
-            self.survivalCurves.append(cohort.cohortOutcomes.nLivingPatients)
+    def calculate_summary_stats(self):
+        """
+        calculate the summary statistics
+        """
 
         # calculate average patient survival time for all simulated cohorts
         for obs_set in self.survivalTimes:

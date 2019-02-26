@@ -34,8 +34,8 @@ Fig.graph_histogram(
 
 # print projected mean survival time (years)
 print('Projected mean survival time (years)',
-      multiCohort.multiCohortOutcomes.sumStat_meanSurvivalTime.get_mean())
+      multiCohort.multiCohortOutcomes.statMeanSurvivalTime.get_mean())
 
 # print projection interval
 print('95% projection (prediction, percentile, or uncertainty) interval of average survival time (years)',
-      multiCohort.multiCohortOutcomes.sumStat_meanSurvivalTime.get_PI(alpha=0.05))
+      multiCohort.multiCohortOutcomes.statMeanSurvivalTime.get_PI(alpha=0.05))

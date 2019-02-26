@@ -22,10 +22,10 @@ class MultiCohort:
         for i in range(len(self.ids)):
 
             # create a cohort
-            cohort = Cohort(id=self.ids[i], pop_size=self.popSizes[i], mortality_prob= self.mortalityProbs[i])
+            cohort = Cohort(id=self.ids[i], pop_size=self.popSizes[i], mortality_prob=self.mortalityProbs[i])
 
             # simulate the cohort
-            cohort.simulate(n_time_steps)
+            cohort.simulate(n_time_steps=n_time_steps)
 
             # outcomes from simulating all cohorts
             self.multiCohortOutcomes.extract_outcomes(simulated_cohort=cohort)
@@ -40,7 +40,7 @@ class MultiCohortOutcomes:
         self.survivalTimes = []  # two dimensional list of patient survival times from all simulated cohort
         self.meanSurvivalTimes = []  # list of average patient survival time for all simulated cohort
         self.survivalCurves = []  # list of survival curves from all simulated cohorts
-        self.sumStat_meanSurvivalTime = None  # summary statistics of mean survival time
+        self.statMeanSurvivalTime = None  # summary statistics of mean survival time
 
     def extract_outcomes(self, simulated_cohort):
         """ extracts outcomes of a simulated cohort
@@ -62,7 +62,8 @@ class MultiCohortOutcomes:
             self.meanSurvivalTimes.append(sum(obs_set)/len(obs_set))
 
         # summary statistics of mean survival time
-        self.sumStat_meanSurvivalTime = Stat.SummaryStat('Mean survival time', self.meanSurvivalTimes)
+        self.statMeanSurvivalTime = Stat.SummaryStat(name='Mean survival time',
+                                                     data=self.meanSurvivalTimes)
 
     def get_cohort_CI_mean_survival(self, cohort_index, alpha):
         """
@@ -74,7 +75,7 @@ class MultiCohortOutcomes:
         stat = Stat.SummaryStat(name='Summary statistics',
                                 data=self.survivalTimes[cohort_index])
 
-        return stat.get_t_CI(alpha)
+        return stat.get_t_CI(alpha=alpha)
 
     def get_cohort_PI_survival(self, cohort_index, alpha):
         """ :returns: the prediction interval of the survival time for a specified cohort
@@ -85,4 +86,4 @@ class MultiCohortOutcomes:
         stat = Stat.SummaryStat(name='Summary statistics',
                                 data=self.survivalTimes[cohort_index])
 
-        return stat.get_PI(alpha)
+        return stat.get_PI(alpha=alpha)

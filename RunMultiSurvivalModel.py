@@ -5,12 +5,13 @@ import SimPy.SamplePathClasses as Path
 MORTALITY_PROB = 0.1    # annual probability of death
 TIME_STEPS = 100        # years
 N_COHORTS = 500         # number of cohorts
-COHORT_POP_SIZE = 1000   # size of each cohort
+COHORT_POP_SIZE = 100   # size of each cohort
+ALPHA = 0.05            # significance level
 
 # create multiple cohorts
 multiCohort = Cls.MultiCohort(
     ids=range(N_COHORTS),   # [0, 1, 2 ..., N_COHORTS-1]
-    pop_sizes=[COHORT_POP_SIZE] * N_COHORTS,  # [COHORT_POP_SIZE, COHORT_POP_SIZE, ..., COHORT_POP_SIZE]
+    pop_sizes=[COHORT_POP_SIZE]*N_COHORTS,  # [COHORT_POP_SIZE, COHORT_POP_SIZE, ..., COHORT_POP_SIZE]
     mortality_probs=[MORTALITY_PROB]*N_COHORTS  # [p, p, ....]
 )
 
@@ -38,4 +39,4 @@ print('Projected mean survival time (years)',
 
 # print projection interval
 print('95% projection (prediction, percentile, or uncertainty) interval of average survival time (years)',
-      multiCohort.multiCohortOutcomes.statMeanSurvivalTime.get_PI(alpha=0.05))
+      multiCohort.multiCohortOutcomes.statMeanSurvivalTime.get_PI(alpha=ALPHA))

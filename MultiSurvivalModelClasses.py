@@ -1,5 +1,5 @@
 from SurvivalModelClasses import Cohort
-import SimPy.StatisticalClasses as Stat
+import SimPy.Statistics as Stat
 
 
 class MultiCohort:

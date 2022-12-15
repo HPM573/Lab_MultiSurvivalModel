@@ -1,6 +1,7 @@
+import deampy.plots.histogram as hist
+import deampy.plots.sample_paths as path
+
 import MultiSurvivalModelClasses as Cls
-import SimPy.Plots.SamplePaths as Path
-import SimPy.Plots.Histogram as Hist
 
 MORTALITY_PROB = 0.1    # annual probability of death
 TIME_STEPS = 100        # years
@@ -19,7 +20,7 @@ multiCohort = Cls.MultiCohort(
 multiCohort.simulate(TIME_STEPS)
 
 # plot the sample paths
-Path.plot_sample_paths(
+path.plot_sample_paths(
     sample_paths=multiCohort.multiCohortOutcomes.survivalCurves,
     title='Survival Curves',
     x_label='Time-Step (Year)',
@@ -27,7 +28,7 @@ Path.plot_sample_paths(
     transparency=0.5)
 
 # plot the histogram of average survival time
-Hist.plot_histogram(
+hist.plot_histogram(
     data=multiCohort.multiCohortOutcomes.meanSurvivalTimes,
     title='Histogram of Mean Survival Time',
     x_label='Mean Survival Time (Year)',

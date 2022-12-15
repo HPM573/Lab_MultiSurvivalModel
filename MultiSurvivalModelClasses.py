@@ -1,5 +1,6 @@
+import deampy.statistics as stats
+
 from SurvivalModelClasses import Cohort
-import SimPy.Statistics as Stat
 
 
 class MultiCohort:
@@ -37,7 +38,7 @@ class MultiCohort:
 class MultiCohortOutcomes:
     def __init__(self):
 
-        self.survivalTimes = []  # two dimensional list of patient survival times from all simulated cohort
+        self.survivalTimes = []  # two-dimensional list of patient survival times from all simulated cohort
         self.meanSurvivalTimes = []  # list of average patient survival time for all simulated cohort
         self.survivalCurves = []  # list of survival curves from all simulated cohorts
         self.statMeanSurvivalTime = None  # summary statistics of mean survival time
@@ -62,8 +63,8 @@ class MultiCohortOutcomes:
             self.meanSurvivalTimes.append(sum(obs_set)/len(obs_set))
 
         # summary statistics of mean survival time
-        self.statMeanSurvivalTime = Stat.SummaryStat(name='Mean survival time',
-                                                     data=self.meanSurvivalTimes)
+        self.statMeanSurvivalTime = stats.SummaryStat(name='Mean survival time',
+                                                      data=self.meanSurvivalTimes)
 
     def get_cohort_CI_mean_survival(self, cohort_index, alpha):
         """
@@ -72,8 +73,8 @@ class MultiCohortOutcomes:
         :param alpha: significance level
         """
 
-        stat = Stat.SummaryStat(name='Summary statistics',
-                                data=self.survivalTimes[cohort_index])
+        stat = stats.SummaryStat(name='Summary statistics',
+                                 data=self.survivalTimes[cohort_index])
 
         return stat.get_t_CI(alpha=alpha)
 
@@ -83,7 +84,7 @@ class MultiCohortOutcomes:
         :param alpha: significance level
         """
 
-        stat = Stat.SummaryStat(name='Summary statistics',
-                                data=self.survivalTimes[cohort_index])
+        stat = stats.SummaryStat(name='Summary statistics',
+                                 data=self.survivalTimes[cohort_index])
 
         return stat.get_PI(alpha=alpha)

@@ -1,7 +1,7 @@
 import deampy.plots.histogram as hist
 import deampy.plots.sample_paths as path
 
-import MultiSurvivalModelClasses as Cls
+from MultiSurvivalModelClasses import MultiCohort
 
 MORTALITY_PROB = 0.1    # annual probability of death
 TIME_STEPS = 100        # years
@@ -10,7 +10,7 @@ COHORT_POP_SIZE = 100   # size of each cohort
 ALPHA = 0.05            # significance level
 
 # create multiple cohorts
-multiCohort = Cls.MultiCohort(
+multiCohort = MultiCohort(
     ids=range(N_COHORTS),   # [0, 1, 2 ..., N_COHORTS-1]
     pop_sizes=[COHORT_POP_SIZE]*N_COHORTS,  # [COHORT_POP_SIZE, COHORT_POP_SIZE, ..., COHORT_POP_SIZE]
     mortality_probs=[MORTALITY_PROB]*N_COHORTS  # [p, p, ....]

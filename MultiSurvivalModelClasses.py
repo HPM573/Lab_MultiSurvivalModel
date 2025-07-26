@@ -17,8 +17,11 @@ class MultiCohort:
         self.mortalityProbs = mortality_probs
         self.multiCohortOutcomes = MultiCohortOutcomes()
 
-    def simulate(self, n_time_steps):
+    def simulate(self, n_time_steps, seeds):
         """ simulates all cohorts """
+
+        # set the random seed
+        # rng = RandomState(seed=seed)
 
         for i in range(len(self.ids)):
 
@@ -26,7 +29,9 @@ class MultiCohort:
             cohort = Cohort(id=self.ids[i], pop_size=self.popSizes[i], mortality_prob=self.mortalityProbs[i])
 
             # simulate the cohort
-            cohort.simulate(n_time_steps=n_time_steps)
+            cohort.simulate(
+                n_time_steps=n_time_steps,
+                seed=seeds[i])
 
             # outcomes from simulating all cohorts
             self.multiCohortOutcomes.extract_outcomes(simulated_cohort=cohort)

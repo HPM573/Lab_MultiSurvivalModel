@@ -20,9 +20,6 @@ class MultiCohort:
     def simulate(self, n_time_steps, seeds):
         """ simulates all cohorts """
 
-        # set the random seed
-        # rng = RandomState(seed=seed)
-
         for i in range(len(self.ids)):
 
             # create a cohort
